@@ -1,0 +1,8 @@
+name = !&# Podcast
+description = Add iTunes podcast elements to RSS feeds of entities
+core = 7.x
+package = !&#
+dependencies[] = rss_enclosure
+dependencies[] = fences
+dependencies[] = getid3
+files[] = bangpoundpodcast_plugin_row_node_rss.inc
