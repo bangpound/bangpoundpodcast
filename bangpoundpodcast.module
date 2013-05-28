@@ -298,7 +298,7 @@ function bangpoundpodcast_image_default_styles() {
 
   $styles['itunes_podcast'] = array(
     'effects' => array(
-      0 => array(
+      array(
         'name' => 'imagecrop_javascript',
         'data' => array(
           'width' => 1400,
@@ -310,13 +310,15 @@ function bangpoundpodcast_image_default_styles() {
           'aspect_ratio' => 'CROP',
           'disable_if_no_data' => 0,
         ),
+        'weight' => 1,
       ),
-      1 => array(
+      array(
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 1400,
           'height' => 1400,
         ),
+        'weight' => 2,
       ),
     ),
   );
