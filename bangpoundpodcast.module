@@ -80,6 +80,8 @@ function bangpoundpodcast_preprocess_views_view_rss(&$variables, $hook) {
   }
 
   // Add rel=self link as suggested by <http://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html>
+  $style->namespaces['xmlns:atom'] = 'http://www.w3.org/2005/Atom';
+  $variables['namespaces'] = drupal_attributes($style->namespaces);
   $style->channel_elements[] = array(
     'key' => 'atom:link',
     'attributes' => array(
