@@ -50,16 +50,27 @@ function bangpoundpodcast_preprocess_views_view_rss(&$variables, $hook) {
     $tid = $view->argument['term_node_tid_depth']->get_value();
     if ($tid) {
       $term = taxonomy_term_load($tid);
-      $value = field_view_value('taxonomy_term', $term, 'field_podcast_description', $term->field_podcast_description[LANGUAGE_NONE][0]);
-      $description = drupal_render($value);
+      $items = field_get_items('taxonomy_term', $term, 'field_podcast_description');
+      if ($items) {
+        $value = field_view_value('taxonomy_term', $term, 'field_podcast_description', $items[0]);
+        $description = drupal_render($value);
+      }
       if (empty($description)) {
         $description = $term->description;
       }
       $variables['description'] = trim(check_plain(decode_entities(strip_tags($description))));
 
-      $value = field_view_field('taxonomy_term', $term, 'field_itunes_category', array('type' => 'itunes_category'));
-      $value = field_view_field('taxonomy_term', $term, 'field_image', array('type' => 'itunes_image', 'settings' => array('image_style' => 'itunes_podcast')));
-      $value = field_view_field('taxonomy_term', $term, 'field_subtitle', array('type' => 'itunes_subtitle'));
+      // Drop the return values because these field formatters modify the
+      // rss_elements array on the term object.
+      if (field_get_items('taxonomy_term', $term, 'field_itunes_category')) {
+        field_view_field('taxonomy_term', $term, 'field_itunes_category', array('type' => 'itunes_category'));
+      }
+      if (field_get_items('taxonomy_term', $term, 'field_itunes_category')) {
+        field_view_field('taxonomy_term', $term, 'field_image', array('type' => 'itunes_image', 'settings' => array('image_style' => 'itunes_podcast')));
+      }
+      if (field_get_items('taxonomy_term', $term, 'field_itunes_category')) {
+        field_view_field('taxonomy_term', $term, 'field_subtitle', array('type' => 'itunes_subtitle'));
+      }
 
       $term->rss_elements[] = array(
         'key' => 'itunes:owner',
