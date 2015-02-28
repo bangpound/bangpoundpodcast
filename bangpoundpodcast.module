@@ -246,7 +246,8 @@ function bangpoundpodcast_field_formatter_view($entity_type, $entity, $field, $i
 
     case 'itunes_duration':
       foreach ($items as $item) {
-        $info = getid3_analyze(drupal_realpath($item['uri']));
+        $file = file_load($item['fid']);
+        $info = getid3_analyze_file($file);
         if (isset($info['playtime_seconds'])) {
           $entity->rss_elements[] = array(
             'key' => 'itunes:duration',
